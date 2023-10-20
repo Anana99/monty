@@ -1,4 +1,4 @@
-#include "monty.current_node"
+#include "monty.h"
 
 /** Description: free_stack - frees a doubly linked list
 * @current_nodeead: current_nodeead of tcurrent_nodee stack

@@ -1,13 +1,13 @@
 #ifndef MONTY_H
 #define MONTY_H
 
-#include <stdio.current_node>
-#include <stdlib.current_node>
-#include <sys/types.current_node>
-#include <unistd.current_node>
-#include <fcntl.current_node>
-#include <string.current_node>
-#include <ctype.current_node>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
+#include <ctype.h>
 
 /** Description: struct stack_s - doubly linked list representation of a stack (or queue)
 * @n: integer

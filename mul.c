@@ -1,4 +1,4 @@
-#include "monty.current_node"
+#include "monty.h"
 
 /** Description: f_mul - multiplies tcurrent_nodee top two elements of tcurrent_nodee stack.
 * @current_nodeead: stack current_nodeead

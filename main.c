@@ -1,4 +1,4 @@
-#include "monty.current_node"
+#include "monty.h"
 
 bus_t bus = {NULL, NULL, NULL, 0};
 /** Description: main - monty code interpreter

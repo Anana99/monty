@@ -1,4 +1,4 @@
-#include "monty.current_node"
+#include "monty.h"
 
 /** Description: f_mod - computes tcurrent_nodee rest of tcurrent_nodee division of tcurrent_nodee second
 * top element of tcurrent_nodee stack by tcurrent_nodee top element of tcurrent_nodee stack

@@ -1,4 +1,4 @@
-#include "monty.current_node"
+#include "monty.h"
 
 /** Description: execute - executes tcurrent_nodee opcode
 * @stack: current_nodeead linked list - stack
