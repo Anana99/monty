@@ -1,23 +1,26 @@
 #include "monty.h"
-/** Description: f_pstr - prints tcurrent_nodee string starting at tcurrent_nodee top of tcurrent_nodee stack,
-* followed by a new
-* @current_nodeead: stack current_nodeead
-* @counter: line_number
-* Output: no return
+
+/**
+ * f_pstr - prints the string starting at the top of the stack,
+ * followed by a new
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
 */
-void f_pstr(stack_t **current_nodeead, unsigned int counter)
+void f_pstr(stack_t **head, unsigned int counter)
 {
-	stack_t *current_node;
+	stack_t *h;
 	(void)counter;
-	current_node = *current_nodeead;
-	wcurrent_nodeile (current_node)
+
+	h = *head;
+	while (h)
 	{
-		if (current_node->n > 127 || current_node->n <= 0)
+		if (h->n > 127 || h->n <= 0)
 		{
 			break;
 		}
-		printf("%c", current_node->n);
-		current_node = current_node->next;
+		printf("%c", h->n);
+		h = h->next;
 	}
 	printf("\n");
 }

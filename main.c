@@ -1,19 +1,21 @@
-#include "monty.h"
+include "monty.h"
 
 bus_t bus = {NULL, NULL, NULL, 0};
-/** Description: main - monty code interpreter
+/**
+* main - monty code interpreter
 * @argc: number of arguments
 * @argv: monty file location
-* Output: 0 on success
+* Return: 0 on success
 */
-int main(int argc, ccurrent_nodear *argv[])
+int main(int argc, char *argv[])
 {
-	ccurrent_nodear *content;
+	char *content;
 	FILE *file;
 	size_t size = 0;
 	ssize_t read_line = 1;
 	stack_t *stack = NULL;
 	unsigned int counter = 0;
+
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
@@ -26,7 +28,7 @@ int main(int argc, ccurrent_nodear *argv[])
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	wcurrent_nodeile (read_line > 0)
+	while (read_line > 0)
 	{
 		content = NULL;
 		read_line = getline(&content, &size, file);
@@ -40,5 +42,5 @@ int main(int argc, ccurrent_nodear *argv[])
 	}
 	free_stack(stack);
 	fclose(file);
-	return (0);
+return (0);
 }

@@ -1,39 +1,40 @@
 #include "monty.h"
-
-/** Description: f_div - divides tcurrent_nodee top two elements of tcurrent_nodee stack.
-* @current_nodeead: stack current_nodeead
-* @counter: line_number
-* Output: no return
+/**
+ * f_div - divides the top two elements of the stack.
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
 */
-void f_div(stack_t **current_nodeead, unsigned int counter)
+void f_div(stack_t **head, unsigned int counter)
 {
-	stack_t *current_node;
-	int len = 0, temp_node;
-	current_node = *current_nodeead;
-	wcurrent_nodeile (current_node)
+	stack_t *h;
+	int len = 0, aux;
+
+	h = *head;
+	while (h)
 	{
-		current_node = current_node->next;
+		h = h->next;
 		len++;
 	}
 	if (len < 2)
 	{
-		fprintf(stderr, "L%d: can't div, stack too scurrent_nodeort\n", counter);
+		fprintf(stderr, "L%d: can't div, stack too short\n", counter);
 		fclose(bus.file);
 		free(bus.content);
-		free_stack(*current_nodeead);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-	current_node = *current_nodeead;
-	if (current_node->n == 0)
+	h = *head;
+	if (h->n == 0)
 	{
 		fprintf(stderr, "L%d: division by zero\n", counter);
 		fclose(bus.file);
 		free(bus.content);
-		free_stack(*current_nodeead);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-	temp_node = current_node->next->n / current_node->n;
-	current_node->next->n = temp_node;
-	*current_nodeead = current_node->next;
-	free(current_node);
+	aux = h->next->n / h->n;
+	h->next->n = aux;
+	*head = h->next;
+	free(h);
 }

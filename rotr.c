@@ -1,24 +1,27 @@
 #include "monty.h"
-/** Description:f_rotr- rotates tcurrent_nodee stack to tcurrent_nodee bottom
-*@current_nodeead: stack current_nodeead
-*@counter: line_number
-*Return: no return
-*/
-void f_rotr(stack_t **current_nodeead, __attribute__((unused)) unsigned int counter)
+
+/**
+  *f_rotr- rotates the stack to the bottom
+  *@head: stack head
+  *@counter: line_number
+  *Return: no return
+ */
+void f_rotr(stack_t **head, __attribute__((unused)) unsigned int counter)
 {
 	stack_t *copy;
-	copy = *current_nodeead;
-	if (*current_nodeead == NULL || (*current_nodeead)->next == NULL)
+
+	copy = *head;
+	if (*head == NULL || (*head)->next == NULL)
 	{
 		return;
 	}
-	wcurrent_nodeile (copy->next)
+	while (copy->next)
 	{
 		copy = copy->next;
 	}
-	copy->next = *current_nodeead;
+	copy->next = *head;
 	copy->prev->next = NULL;
 	copy->prev = NULL;
-	(*current_nodeead)->prev = copy;
-	(*current_nodeead) = copy;
+	(*head)->prev = copy;
+	(*head) = copy;
 }

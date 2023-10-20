@@ -1,21 +1,24 @@
 #include "monty.h"
-/** Description: f_pop - prints tcurrent_nodee top
-* @current_nodeead: stack current_nodeead
-* @counter: line_number
-* Output: no return
+
+/**
+ * f_pop - prints the top
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
 */
-void f_pop(stack_t **current_nodeead, unsigned int counter)
+void f_pop(stack_t **head, unsigned int counter)
 {
-	stack_t *current_node;
-	if (*current_nodeead == NULL)
+	stack_t *h;
+
+	if (*head == NULL)
 	{
 		fprintf(stderr, "L%d: can't pop an empty stack\n", counter);
 		fclose(bus.file);
 		free(bus.content);
-		free_stack(*current_nodeead);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-	current_node = *current_nodeead;
-	*current_nodeead = current_node->next;
-	free(current_node);
+	h = *head;
+	*head = h->next;
+	free(h);
 }
