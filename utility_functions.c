@@ -1,42 +1,80 @@
 #include "monty.h"
+#define _POSIX_C_SOURCE 200809L
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
- * free_stack - Frees a stack.
- * @stack: A pointer to the top (stack) or bottom (queue) of a stack_t.
- *
- * Description: This function will free the entire stack.
+ * free_stack - frees a stack_t stack
+ * @stack: stack to be freed
  */
-void free_stack(stack_t *stack)
+void free_stack(stack_t **stack)
 {
-	stack_t *temp;
+	stack_t *current;
 
-	while (stack)
+	while (*stack != NULL)
 	{
-		temp = stack->next;
-		free(stack);
-		stack = temp;
+		current = *stack;
+		*stack = (*stack)->next;
+		free(current);
 	}
 }
 
 /**
- * is_number - Checks if a string represents a valid integer.
- * @str: The string to check.
- *
- * Return: 1 if the string is a valid integer, otherwise 0.
- *
- * Description: This function checks if a given string represents
- * a valid number.
+ * read_line - reads a line from a file
+ * @file: file to read from
+ * @line: address of a pointer to store the line
+ * Return: the number of characters in the line, or -1 on failure or EOF
  */
-int is_number(const char *str)
+ssize_t read_line(FILE *file, char **line)
 {
-	if (*str == '-' || *str == '+')
-		str++;
-	while (*str)
+	const size_t chunk_size = 512;
+	size_t capacity = chunk_size, length = 0;
+	char *buffer = malloc(chunk_size);
+	char *temp = NULL;
+
+	if (!buffer)
+		return(-1);
+
+	*line = malloc(capacity);
+	if (!*line)
 	{
-		if (*str < '0' || *str > '9')
-			return (0);
-		str++;
+		free(buffer);
+		return(-1);
 	}
-	return (1);
+
+	while (fgets(buffer, chunk_size, file) != NULL)
+	{
+		size_t buffer_length = strlen(buffer);
+
+		while (length + buffer_length + 1 > capacity)
+		{
+			capacity *= 2;
+			temp = realloc(*line, capacity);
+			if (!temp)
+			{
+				free(buffer);
+				free(*line);
+				return(-1);
+			}
+			*line = temp;
+		}
+
+		strcpy(*line + length, buffer);
+		length += buffer_length;
+
+		if (buffer[buffer_length - 1] == '\n')
+			break;
+	}
+
+	free(buffer);
+
+	if (length == 0)
+	{
+		free(*line);
+		return(-1);
+	}
+
+	return (ssize_t)length;
 }
 

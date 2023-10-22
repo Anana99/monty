@@ -1,55 +1,56 @@
 #include "monty.h"
 
-#define BUFFER_SIZE 1024
-
 /**
- * read_line - Reads a line from the given file.
- * @file: A pointer to the file to read from.
+ * read_line_custom - Reads a line from a file.
+ * @file: The file to read from.
  *
- * Return: A pointer to the read line.
+ * Return: The read line or NULL on failure or EOF.
  */
-char *read_line(FILE *file)
+char *read_line_custom(FILE *file)
 {
-	char *line = NULL;
-	int ch, size = 0, len = 0;
+	int ch;
+	size_t buff_size = 1024;
+	size_t length = 0;
+	char *buffer = malloc(buff_size);
+
+	if (!buffer)
+		return (NULL);
 
 	while ((ch = fgetc(file)) != EOF && ch != '\n')
 	{
-		if (size <= len)
+		buffer[length++] = ch;
+		if (length == buff_size - 1)
 		{
-			size += BUFFER_SIZE;
-			line = realloc(line, size);
-			if (!line)
-			{
-				fprintf(stderr, "Error: malloc failed\n");
-				exit(EXIT_FAILURE);
-			}
+			buff_size *= 2;
+			buffer = realloc(buffer, buff_size);
+			if (!buffer)
+				return (NULL);
 		}
-		line[len++] = ch;
 	}
-	if (len > 0)
+
+	if (length == 0 && ch == EOF)
 	{
-		line = realloc(line, len + 1);
-		line[len] = '\0';
+		free(buffer);
+		return (NULL);
 	}
-	return (line);
+
+	buffer[length] = '\0';
+	return (buffer);
 }
 
 /**
- * main - The main function of the Monty ByteCode Interpreter.
- * @argc: The number of command line arguments.
- * @argv: The command line arguments.
+ * main - Main function for Monty bytecode interpreter
+ * @argc: Number of arguments
+ * @argv: Array of argument strings
  *
- * Return: EXIT_SUCCESS on success, or an error code on failure.
+ * Return: EXIT_SUCCESS on success, EXIT_FAILURE on error.
  */
 int main(int argc, char *argv[])
 {
 	FILE *file;
-	char *line = NULL;
+	char *line = NULL, *opcode = NULL, *argument = NULL;
 	unsigned int line_number = 0;
-	char *opcode = NULL, *argument = NULL;
 	stack_t *stack = NULL;
-	char **tokens;
 
 	if (argc != 2)
 	{
@@ -64,19 +65,19 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	while ((line = read_line(file)) != NULL)
+	while (read_line_custom(file) != NULL)
 	{
 		line_number++;
-		tokens = tokenize_line(line);
-		opcode = tokens[0];
-		argument = tokens[1];
-		execute_opcode(&stack, opcode, line_number, argument);
+		tokenize_line(line, &opcode, &argument);
+		if (opcode && opcode[0] != '#') /* Ignore comments */
+			execute_opcode(&stack, opcode, line_number, argument);
 		free(line);
-		free(tokens);
+		line = NULL;
 	}
 
+	free(line);
+	free_stack(&stack);
 	fclose(file);
-	free_stack(stack);
-
 	return (EXIT_SUCCESS);
 }
+
