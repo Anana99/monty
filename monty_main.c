@@ -32,7 +32,7 @@ char *read_line(FILE *file)
 		line = realloc(line, len + 1);
 		line[len] = '\0';
 	}
-	return line;
+	return (line);
 }
 
 /**

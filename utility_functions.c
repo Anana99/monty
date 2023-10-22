@@ -24,7 +24,8 @@ void free_stack(stack_t *stack)
  *
  * Return: 1 if the string is a valid integer, otherwise 0.
  *
- * Description: This function checks if a given string represents a valid number.
+ * Description: This function checks if a given string represents
+ * a valid number.
  */
 int is_number(const char *str)
 {
@@ -38,3 +39,4 @@ int is_number(const char *str)
 	}
 	return (1);
 }
+

@@ -2,35 +2,35 @@
 
 /**
  * custom_strdup - Duplicates a string.
- * @s: The string to duplicate.
+ * @str: The string to duplicate.
  *
- * Return: A pointer to the duplicated string.
+ * Return: A pointer to the duplicated string, or NULL on failure.
  */
-char *custom_strdup(const char *s)
+char *custom_strdup(const char *str)
 {
 	char *dup;
-	int len = strlen(s) + 1;
+	size_t len = strlen(str) + 1;
 
 	dup = malloc(len);
 	if (!dup)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-	return memcpy(dup, s, len);
+		return (NULL);
+
+	memcpy(dup, str, len);
+	return (dup);
 }
 
 /**
- * execute_opcode - Executes the given opcode.
- * @stack: A pointer to the stack.
+ * execute_opcode - Executes an opcode.
+ * @stack: A pointer to the top (stack) or bottom (queue) of a stack_t.
  * @opcode: The opcode to execute.
  * @line_number: The current line number.
- * @argument: The argument for the opcode.
+ * @argument: The argument for the opcode (if any).
  */
-void execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, char *argument)
+void execute_opcode(stack_t **stack, char *opcode, unsigned int line_number,
+	char *argument)
 {
-	int i;
 	instruction_t opcodes[] = {
+		{"push", push},
 		{"pall", pall},
 		{"pint", pint},
 		{"pop", pop},
@@ -39,22 +39,18 @@ void execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, cha
 		{"nop", nop},
 		{NULL, NULL}
 	};
-
-	if (strcmp(opcode, "push") == 0)
-	{
-		push(stack, line_number, argument);
-		return;
-	}
+	int i = 0;
 
 	for (i = 0; opcodes[i].opcode; i++)
 	{
 		if (strcmp(opcode, opcodes[i].opcode) == 0)
 		{
-			opcodes[i].f(stack, line_number);
+			opcodes[i].f(stack, line_number, argument);
 			return;
 		}
 	}
-	fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
+
+	fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
 	free_stack(*stack);
 	exit(EXIT_FAILURE);
 }
@@ -62,19 +58,15 @@ void execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, cha
 /**
  * tokenize_line - Tokenizes a line into opcode and argument.
  * @line: The line to tokenize.
- *
- * Return: A pointer to an array of strings (tokens).
+ * @opcode: A pointer to a string where the opcode will be stored.
+ * @argument: A pointer to a string where the argument will be stored.
  */
-char **tokenize_line(char *line)
+void tokenize_line(char *line, char **opcode, char **argument)
 {
-	char **tokens = malloc(sizeof(char *) * 2);
-	char *token = strtok(line, " \t\n");
+	char *token = strtok(line, " \t\r\n");
 
-	tokens[0] = token ? custom_strdup(token) : NULL;
-	token = strtok(NULL, " \t\n");
-	tokens[1] = token ? custom_strdup(token) : NULL;
+	*opcode = token ? custom_strdup(token) : NULL;
 
-	return tokens;
+	token = strtok(NULL, " \t\r\n");
+	*argument = token ? custom_strdup(token) : NULL;
 }
-
-/* ... The rest of the opcode functions from the previous content ... */

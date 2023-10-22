@@ -5,7 +5,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Structure for stack double linked list */
+/**
+ * struct stack_s - Doubly linked list representation of a stack (or queue)
+ * @n: Integer value
+ * @prev: Pointer to the previous element of the stack (or queue)
+ * @next: Pointer to the next element of the stack (or queue)
+ *
+ * Description: Doubly linked list node structure for stack/queue
+ */
 typedef struct stack_s
 {
 	int n;
@@ -13,7 +20,13 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
-/* Structure for opcode and its function */
+/**
+ * struct instruction_s - Opcode and its function
+ * @opcode: The opcode
+ * @f: Function to handle the opcode
+ *
+ * Description: Opcode and its associated function
+ */
 typedef struct instruction_s
 {
 	char *opcode;
@@ -21,9 +34,6 @@ typedef struct instruction_s
 } instruction_t;
 
 /* Function prototypes */
-char *custom_strdup(const char *s);
-char **tokenize_line(char *line);
-void execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, char *argument);
 void push(stack_t **stack, unsigned int line_number, const char *n_str);
 void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
@@ -31,7 +41,7 @@ void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
-int is_number(const char *str);
 void free_stack(stack_t *stack);
+int is_number(const char *str);
 
 #endif /* MONTY_H */
