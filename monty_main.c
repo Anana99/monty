@@ -65,7 +65,8 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	while (read_line_custom(file) != NULL)
+	while ((line = read_line_custom(file)) != NULL)
+
 	{
 		line_number++;
 		tokenize_line(line, &opcode, &argument);
